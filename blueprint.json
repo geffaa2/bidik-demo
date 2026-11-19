@@ -1,0 +1,80 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "meta": {
+    "title": "Bidik: a membership site with recurring payments",
+    "description": "A fictional photography school on Paid Memberships Pro: plans, trials, drip courses, proration, dunning, an owner dashboard and a CSV importer. Test card 4242 4242 4242 4242.",
+    "author": "Bidik demo",
+    "categories": [
+      "membership"
+    ]
+  },
+  "landingPage": "/",
+  "preferredVersions": {
+    "php": "8.3",
+    "wp": "latest"
+  },
+  "features": {
+    "networking": false
+  },
+  "steps": [
+    {
+      "step": "defineWpConfigConsts",
+      "consts": {
+        "BIDIK_DEMO": true
+      }
+    },
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "url",
+        "url": "https://geffaa2.github.io/bidik-demo/paid-memberships-pro.3.2.2.zip"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "url",
+        "url": "https://geffaa2.github.io/bidik-demo/bidik-membership.zip"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "installTheme",
+      "themeData": {
+        "resource": "url",
+        "url": "https://geffaa2.github.io/bidik-demo/bidik-theme.zip"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "setSiteOptions",
+      "options": {
+        "blogname": "Bidik",
+        "blogdescription": "A photography school (demo)",
+        "permalink_structure": "/%postname%/",
+        "timezone_string": "Asia/Jakarta",
+        "show_on_front": "posts"
+      }
+    },
+    {
+      "step": "runPHP",
+      "code": "<?php\ndefine( 'BIDIK_CLI', true );\nif ( ! function_exists( 'bidik_out' ) ) { function bidik_out( $s ) {} }\nrequire_once '/wordpress/wp-load.php';\n$_SERVER['argv'] = [ 'run' ];\nrequire WP_PLUGIN_DIR . '/bidik-membership/seed/run.php';"
+    },
+    {
+      "step": "runPHP",
+      "code": "<?php require_once \"/wordpress/wp-load.php\"; flush_rewrite_rules( false );"
+    },
+    {
+      "step": "login",
+      "username": "demo-member",
+      "password": "bidik-demo"
+    }
+  ]
+}
